@@ -2,6 +2,8 @@ package com.example.taskmaster;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,8 +16,14 @@ import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity {
 
 
     @Override
@@ -28,12 +36,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("tasks", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("tasks", Context.MODE_PRIVATE);
         @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = sharedPreferences.edit();
-        String name = sharedPreferences.getString("name","Anonymous");
+        String name = sharedPreferences.getString("name", "Anonymous");
         System.out.println(name);
         TextView textView = (TextView) findViewById(R.id.mainUsername);
-        textView.setText(name+"'s Tasks");
+        textView.setText(name + "'s Tasks");
+        List<Task> tasks = new ArrayList<>();
+        tasks = seedTask(sharedPreferences);
+        RecyclerView recyclerView = findViewById(R.id.mainTaskView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new TaskAdapter(tasks.subList(0,3)));
     }
 
     public void showAllTasks(View v) {
@@ -42,40 +55,38 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public static List<Task> seedTask (SharedPreferences sharedPreferences) {
+        String string = sharedPreferences.getString("taskList",null);
+        List<Task> tasks = new ArrayList<>();
+        if (string == null) {
+            tasks.add(new Task("Title1", "Desc1", "new "));
+            tasks.add(new Task("Title2", "Desc2", "new "));
+            tasks.add(new Task("Title3", "Desc3", "new "));
+            tasks.add(new Task("Title4", "Desc4", "new "));
+            tasks.add(new Task("Title5", "Desc5", "new "));
+            tasks.add(new Task("Title6", "Desc6", "new "));
+            @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = sharedPreferences.edit();
+            Gson gson = new Gson();
+            String json = gson.toJson(tasks);
+            System.out.println(json);
+            editor.putString("taskList", json);
+            editor.apply();
+        } else {
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<Task>>(){}.getType();
+            tasks = gson.fromJson(string, type);
+        }
+        return tasks;
+    }
+
     public void showAddTask(View v) {
+
         Intent intent = new Intent(this, AddTask.class);
         startActivity(intent);
     }
 
     public void showSetting(View view) {
         Intent intent = new Intent(this, Setting.class);
-        startActivity(intent);
-    }
-
-    @SuppressLint("NonConstantResourceId")
-    public void showTask(View view) {
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("tasks", MODE_PRIVATE);
-        @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = sharedPreferences.edit();
-       Intent intent = new Intent(this, TaskDetail.class);
-        switch (view.getId()) {
-            case R.id.taskOne:
-                editor.putString("title", "Task number one");
-                editor.putString("desc", "Task one Lorem ipsum" + getString(R.string.descDetail).toString());
-                break;
-            case R.id.taskTwo:
-                editor.putString("title", "Task number Two");
-                editor.putString("desc", "Task Two Lorem ipsum" + getString(R.string.descDetail).toString());
-                break;
-            case R.id.taskThree:
-                editor.putString("title", "Task number Three");
-                editor.putString("desc", "Task Three Lorem ipsum" + getString(R.string.descDetail).toString());
-                break;
-            default:
-                editor.putString("title", "No Title");
-                editor.putString("desc", "No Desc Lorem ipsum" + getString(R.string.descDetail).toString());
-                break;
-        }
-        editor.apply();
         startActivity(intent);
     }
 
