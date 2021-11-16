@@ -27,6 +27,12 @@ This is an android application that will display your added task, and you can ad
         > The User can Set the username in the settings
     2. Added three task to the main page when clicked on one of them new activity will open contain the title along with description.
     3. Added setting button in the main page to open the settings activity.
+
+- 16/11/2021 20:55:
+    1. Added the functionality to add task page where the task will be added to the shared preference.
+    2. Added RecyclerView to the main page and All Task page where in the main page will display the newest three added task.
+    3. When the user run the app for the first time the shared preference will seed with 6 tasks.
+
 ## Screen Shots
     
 - 14/11/2021
@@ -40,3 +46,10 @@ This is an android application that will display your added task, and you can ad
 ![Home page with setting and tasks](./screenshots/hompageWithusernameAndtaskBar.jpg)
 ![Setting page](./screenshots/settingName.jpg)
 ![Task Detail](./screenshots/taskDetail.jpg)
+
+
+- 16/11/2021
+![Home page with setting and tasks](./screenshots/homepageRCView.jpg)
+![All Task](./screenshots/allTaskFun.jpg)
+![Add Task](./screenshots/addTaskWithFun.jpg)
+![Task Detail](./screenshots/taskDetailFun.jpg)

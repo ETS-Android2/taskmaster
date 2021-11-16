@@ -13,23 +13,23 @@
             android:text="@string/all_task"
             android:textColor="?colorOnSecondary"
             android:textSize="32sp"
-            app:layout_constraintBottom_toTopOf="@+id/imageView2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.109"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.738" />
+            android:layout_marginTop="44dp" />
 
-    <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="349dp"
-            android:layout_height="429dp"
-            android:contentDescription="@string/todo"
-            app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.recyclerview.widget.RecyclerView
+
+            android:layout_width="353dp"
+            android:layout_height="500sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.463"
-            app:srcCompat="@drawable/luis_villasmil_mlvbmbxfwi4_unsplash" />
+            android:id="@+id/allTaskView"
+            app:layout_constraintHorizontal_bias="0.491"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            android:layout_marginTop="48dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

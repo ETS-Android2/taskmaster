@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -15,7 +16,7 @@ public class TaskDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail);
-        SharedPreferences sharedPreferences = getApplication().getSharedPreferences("tasks", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getApplication().getSharedPreferences("tasks", Context.MODE_PRIVATE);
         TextView textViewTitle = findViewById(R.id.titleDetail);
         TextView textViewDesc = findViewById(R.id.descDetail);
         textViewTitle.setText(sharedPreferences.getString("title", "No title"));

@@ -14,12 +14,10 @@
             android:textAlignment="center"
             android:textColor="?colorOnSecondary"
             android:textSize="34sp"
-            app:layout_constraintBottom_toTopOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.136"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.788" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     <Button
             android:onClick="showSetting"
@@ -30,9 +28,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.516"
             app:layout_constraintStart_toEndOf="@+id/addTask"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
-            app:layout_constraintVertical_bias="0.682"
-            app:layout_constraintEnd_toStartOf="@+id/allTasks" />
+            app:layout_constraintEnd_toStartOf="@+id/allTasks"
+            app:layout_constraintTop_toBottomOf="@+id/mainTaskView" />
 
     <Button
 
@@ -44,8 +41,7 @@
             android:text="@string/add_task"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
-            app:layout_constraintVertical_bias="0.682" />
+            app:layout_constraintTop_toBottomOf="@+id/mainTaskView" />
 
 
     <Button
@@ -56,90 +52,55 @@
             android:text="@string/all_tasks"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.855"
-            app:layout_constraintStart_toEndOf="@+id/addTask"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
-            app:layout_constraintVertical_bias="0.682" />
+            app:layout_constraintTop_toBottomOf="@+id/mainTaskView"
+            android:layout_marginEnd="36dp"
+            app:layout_constraintVertical_bias="0.504" />
 
+<!--    <TextView-->
+<!--            android:textColor="#BCAAA4"-->
+<!--            android:background="@color/cardview_dark_background"-->
+<!--            android:onClick="showTask"-->
+<!--            android:textSize="18sp"-->
+<!--            android:gravity="center"-->
+<!--            android:text="@string/first_title"-->
+<!--            android:layout_width="120dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:id="@+id/taskOne"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/taskRecyclerView"-->
+<!--            android:layout_marginTop="76dp" />-->
 
-    <HorizontalScrollView
-            app:flow_verticalAlign="center"
-            android:layout_width="335dp"
-            android:layout_height="55dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mainUsername"
-            app:layout_constraintBottom_toTopOf="@+id/setting"
-            app:layout_constraintVertical_bias="0.73">
+<!--    <TextView-->
+<!--            android:textColor="#BCAAA4"-->
+<!--            android:background="@color/cardview_dark_background"-->
+<!--            android:onClick="showTask"-->
+<!--            android:textSize="18sp"-->
+<!--            android:gravity="center"-->
+<!--            android:text="@string/second_title"-->
+<!--            android:layout_width="120dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:id="@+id/taskTwo"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/taskThree"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/taskOne"-->
+<!--            app:layout_constraintHorizontal_bias="0.473"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/taskRecyclerView"-->
+<!--            android:layout_marginTop="76dp" />-->
 
-        <LinearLayout
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-            <TextView
-                    android:textColor="?colorOnSecondary"
-                    android:background="@color/cardview_dark_background"
-                    android:onClick="showTask"
-                    android:textSize="18sp"
-                    android:gravity="center"
-                    android:text="@string/first_title"
-                    android:layout_width="120dp"
-                    android:layout_height="34dp"
-                    android:id="@+id/taskOne"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="24dp"
-                    app:layout_constraintBottom_toTopOf="@+id/addTask"
-                    app:layout_constraintTop_toBottomOf="@+id/mainUsername" />
-
-            <TextView
-                    android:textColor="?colorOnSecondary"
-                    android:background="@color/cardview_dark_background"
-                    android:onClick="showTask"
-                    android:textSize="18sp"
-                    android:gravity="center"
-                    android:text="@string/second_title"
-                    android:layout_width="120dp"
-                    android:layout_height="34dp"
-                    android:id="@+id/taskTwo"
-                    app:layout_constraintEnd_toStartOf="@+id/taskThree"
-                    app:layout_constraintStart_toEndOf="@+id/taskOne"
-                    app:layout_constraintHorizontal_bias="0.492"
-                    app:layout_constraintBottom_toTopOf="@+id/setting"
-                    app:layout_constraintTop_toBottomOf="@+id/mainUsername" />
-
-
-            <TextView
-                    android:textColor="?colorOnSecondary"
-                    android:background="@color/cardview_dark_background"
-                    android:onClick="showTask"
-                    android:textSize="18sp"
-                    android:gravity="center"
-                    android:text="@string/third_title"
-                    android:layout_width="120dp"
-                    android:layout_height="34dp"
-                    android:id="@+id/taskThree"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="24dp"
-                    app:layout_constraintTop_toBottomOf="@+id/mainUsername"
-                    app:layout_constraintBottom_toTopOf="@+id/allTasks"
-                    app:layout_constraintVertical_bias="0.506" />
-
-        </LinearLayout>
-    </HorizontalScrollView>
-
-    <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="358dp"
-            android:layout_height="254dp"
-            android:contentDescription="@string/todo"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.49"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.348"
-            app:srcCompat="@drawable/microsoft_edge_8tvodbqohzu_unsplash" />
+<!--    <TextView-->
+<!--            android:textColor="#BCAAA4"-->
+<!--            android:background="@color/cardview_dark_background"-->
+<!--            android:onClick="showTask"-->
+<!--            android:textSize="18sp"-->
+<!--            android:gravity="center"-->
+<!--            android:text="@string/third_title"-->
+<!--            android:layout_width="120dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:id="@+id/taskThree"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/taskRecyclerView"-->
+<!--            android:layout_marginTop="76dp" />-->
 
     <TextView
             android:textColor="?colorOnSecondary"
@@ -149,10 +110,20 @@
             android:layout_width="240dp"
             android:layout_height="39dp"
             android:id="@+id/mainUsername"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="24dp"
-            app:layout_constraintHorizontal_bias="0.497" />
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            android:layout_marginTop="36dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+
+            android:layout_width="350dp"
+            android:layout_height="400sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainUsername"
+            android:id="@+id/mainTaskView"
+            android:layout_marginTop="44dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
