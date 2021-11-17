@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,18 +28,19 @@ import java.util.Objects;
 import java.util.Set;
 
 public class AddTask extends AppCompatActivity {
-
+    static TaskDataBase db;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+        db = TaskDataBase.getInstance(getApplicationContext());
         ActionBar actionBar = getSupportActionBar();
         Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
         SharedPreferences sharedPreferences = this.getApplicationContext().getSharedPreferences("tasks", Context.MODE_PRIVATE);
-        List<Task> tasks = getList(sharedPreferences);
-        TextView textView = findViewById(R.id.totalTask);
-        textView.setText("Total Task: "+tasks.size());
+//        List<Task> tasks = getList(sharedPreferences);
+//        TextView textView = findViewById(R.id.totalTask);
+//        textView.setText("Total Task: "+tasks.size());
 
 
     }
@@ -58,12 +60,18 @@ public class AddTask extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     public void addTask(View view) {
         SharedPreferences sharedPreferences = this.getApplicationContext().getSharedPreferences("tasks", Context.MODE_PRIVATE);
-        List<Task> tasks = getList(sharedPreferences);
+//        List<Task> tasks = getList(sharedPreferences);
         TextInputEditText title = findViewById(R.id.title);
         TextInputEditText desc = findViewById(R.id.desc);
         Task task = new Task(Objects.requireNonNull(title.getText()).toString(), Objects.requireNonNull(desc.getText()).toString(), "new");
-        tasks.add(0,task);
-        addList(sharedPreferences.edit(),tasks);
+//        tasks.add(0,task);
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                addList(task);
+            }
+        });
+
         TextView textView = findViewById(R.id.totalTask);
         String[] arrayOfText = textView.getText().toString().split(":");
         String firstHalf = arrayOfText[0];
@@ -75,19 +83,23 @@ public class AddTask extends AppCompatActivity {
     }
 
     public static List<Task> getList(SharedPreferences sharedPreferences) {
-        List<Task> tasks = new ArrayList<>();
-        String string = sharedPreferences.getString("taskList",null);
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<Task>>(){}.getType();
-        tasks = gson.fromJson(string, type);
-        return tasks;
+//        List<Task> tasks = new ArrayList<>();
+//        String string = sharedPreferences.getString("taskList",null);
+//        Gson gson = new Gson();
+//        Type type = new TypeToken<List<Task>>(){}.getType();
+//        tasks = gson.fromJson(string, type);
+//        return tasks;
+        return db.taskDao().gitAll();
     }
 
-    public static void addList (@SuppressLint("CommitPrefEdits")SharedPreferences.Editor editor, List<Task> tasks) {
-        Gson gson = new Gson();
-        String json = gson.toJson(tasks);
-        System.out.println(json);
-        editor.putString("taskList", json);
-        editor.apply();
+    public static void addList (
+//            @SuppressLint("CommitPrefEdits")SharedPreferences.Editor editor,
+            Task task) {
+//        Gson gson = new Gson();
+//        String json = gson.toJson(tasks);
+//        System.out.println(json);
+//        editor.putString("taskList", json);
+//        editor.apply();
+        db.taskDao().insertTask(task);
     }
 }
