@@ -1,5 +1,6 @@
 package com.example.taskmaster;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,14 +24,16 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
-
-
+    TaskDataBase db;
+    List<Task> tasks = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        db = TaskDataBase.getInstance(getApplicationContext());
     }
 
     @SuppressLint("SetTextI18n")
@@ -37,16 +41,30 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("tasks", Context.MODE_PRIVATE);
-        @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = sharedPreferences.edit();
+//        @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = sharedPreferences.edit();
         String name = sharedPreferences.getString("name", "Anonymous");
         System.out.println(name);
         TextView textView = (TextView) findViewById(R.id.mainUsername);
         textView.setText(name + "'s Tasks");
-        List<Task> tasks = new ArrayList<>();
-        tasks = seedTask(sharedPreferences);
+        System.out.println(tasks);
+//        AsyncTask.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                TaskDao taskDao = db.taskDao();
+//                tasks = taskDao.gitAll();
+//            }
+//        });
+        new Thread(() -> {
+            while (true) {
+                TaskDao taskDao = db.taskDao();
+                tasks = taskDao.gitAll();
+            }
+        }).start();
+        System.out.println(tasks);
+//        tasks = seedTask(sharedPreferences);
         RecyclerView recyclerView = findViewById(R.id.mainTaskView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new TaskAdapter(tasks.subList(0,3)));
+        recyclerView.setAdapter(new TaskAdapter(tasks));
     }
 
     public void showAllTasks(View v) {
@@ -55,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public static List<Task> seedTask (SharedPreferences sharedPreferences) {
-        String string = sharedPreferences.getString("taskList",null);
+    public static List<Task> seedTask(SharedPreferences sharedPreferences) {
+        String string = sharedPreferences.getString("taskList", null);
         List<Task> tasks = new ArrayList<>();
         if (string == null) {
             tasks.add(new Task("Title1", "Desc1", "new "));
@@ -73,7 +91,8 @@ public class MainActivity extends AppCompatActivity {
             editor.apply();
         } else {
             Gson gson = new Gson();
-            Type type = new TypeToken<List<Task>>(){}.getType();
+            Type type = new TypeToken<List<Task>>() {
+            }.getType();
             tasks = gson.fromJson(string, type);
         }
         return tasks;
@@ -91,4 +110,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
 }

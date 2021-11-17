@@ -1,9 +1,26 @@
 package com.example.taskmaster;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity
 public class Task {
+
+    @PrimaryKey(autoGenerate = true)
+    private int uid;
+
+
     private String title;
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
     private String desc;
     private String state;
 
