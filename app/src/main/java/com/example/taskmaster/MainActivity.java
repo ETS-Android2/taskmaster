@@ -1,8 +1,19 @@
 package com.example.taskmaster;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+
+import androidx.activity.result.ActivityResultLauncher;
+
+import androidx.activity.result.contract.ActivityResultContracts;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,13 +21,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
+
 import android.os.Bundle;
-import android.view.MenuItem;
+
 import android.view.View;
-import android.widget.Button;
-import android.widget.Switch;
+
 import android.widget.TextView;
+
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -24,16 +35,36 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
+
 
 public class MainActivity extends AppCompatActivity {
-    TaskDataBase db;
-    List<Task> tasks = new ArrayList<>();
+    ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == RESULT_OK) {
+                        assert result.getData() != null;
+                        Task task = new Task(result.getData().getStringExtra("title"), result.getData().getStringExtra("desc"), "new");
+                        taskViewModel.insert(task);
+                    }
+                }
+            }
+    );
+    LiveData<List<Task>> tasks;
+    public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
+    private TaskViewModel taskViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        db = TaskDataBase.getInstance(getApplicationContext());
+        taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
+        tasks = taskViewModel.getAllTasks();
+        List<Task> taskList = tasks.getValue();
+        RecyclerView recyclerView = findViewById(R.id.mainTaskView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new TaskAdapter(taskList));
     }
 
     @SuppressLint("SetTextI18n")
@@ -41,35 +72,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("tasks", Context.MODE_PRIVATE);
-//        @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = sharedPreferences.edit();
         String name = sharedPreferences.getString("name", "Anonymous");
         System.out.println(name);
         TextView textView = (TextView) findViewById(R.id.mainUsername);
         textView.setText(name + "'s Tasks");
-        System.out.println(tasks);
-//        AsyncTask.execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                TaskDao taskDao = db.taskDao();
-//                tasks = taskDao.gitAll();
-//            }
-//        });
-        new Thread(() -> {
-            while (true) {
-                TaskDao taskDao = db.taskDao();
-                tasks = taskDao.gitAll();
-            }
-        }).start();
-        System.out.println(tasks);
-//        tasks = seedTask(sharedPreferences);
-        RecyclerView recyclerView = findViewById(R.id.mainTaskView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new TaskAdapter(tasks));
     }
+
 
     public void showAllTasks(View v) {
         Intent intent = new Intent(this, AllTasks.class);
         startActivity(intent);
+
 
     }
 
@@ -101,17 +114,12 @@ public class MainActivity extends AppCompatActivity {
     public void showAddTask(View v) {
 
         Intent intent = new Intent(this, AddTask.class);
-        startActivity(intent);
+        activityResultLauncher.launch(intent);
+
     }
 
     public void showSetting(View view) {
         Intent intent = new Intent(this, Setting.class);
         startActivity(intent);
     }
-
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
 }
