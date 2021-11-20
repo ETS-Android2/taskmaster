@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     List<Task> tasks = new ArrayList<>();
 
     public TaskAdapter(List<Task> tasks) {
+
         this.tasks = tasks;
     }
 
@@ -32,6 +35,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             super(itemView);
             this.itemView = itemView;
         }
+
     }
 
 
@@ -41,6 +45,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_task, parent, false);
         return new TaskViewHolder(view);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
@@ -52,6 +57,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         desc.setText(holder.task.getDesc());
         state.setText(holder.task.getState());
 
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,7 +67,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 editor.putString("desc", holder.task.getDesc());
                 editor.putString("state", holder.task.getState());
                 editor.apply();
-                Intent intent = new Intent(view.getContext(),TaskDetail.class);
+                Intent intent = new Intent(view.getContext(), TaskDetail.class);
                 view.getContext().startActivity(intent);
             }
         });
@@ -72,6 +78,19 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     @Override
     public int getItemCount() {
         return tasks.size();
+    }
+
+    static class TaskDiff extends DiffUtil.ItemCallback<Task> {
+
+        @Override
+        public boolean areItemsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {
+            return oldItem == newItem;
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {
+            return oldItem.getUid() == newItem.getUid();
+        }
     }
 
 }

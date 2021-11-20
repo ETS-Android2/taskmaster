@@ -23,52 +23,25 @@ import java.util.List;
 import java.util.Objects;
 
 public class AllTasks extends AppCompatActivity {
-    static TaskDataBase db;
-    List<Task> tasks;
+    TaskDataBase db;
+    private TaskViewModel taskViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_task);
-        db = TaskDataBase.getInstance(getApplicationContext());
         ActionBar actionBar = getSupportActionBar();
         Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
-//        SharedPreferences sharedPreferences = this.getApplicationContext().getSharedPreferences("tasks", Context.MODE_PRIVATE);
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                RecyclerView recyclerView = findViewById(R.id.allTaskView);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                recyclerView.setAdapter(new TaskAdapter(tasks));
-            }
-        });
+        RecyclerView recyclerView = findViewById(R.id.allTaskView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        db = TaskDataBase.getInstance(this);
+
+        taskViewModel = new TaskViewModel(getApplication());
 
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        new Thread(() -> {
-//            while (true) {
-//                TaskDao taskDao = db.taskDao();
-//                tasks = taskDao.gitAll();
-//            }
-//        }).start();
-//
-//        RecyclerView recyclerView = findViewById(R.id.allTaskView);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setAdapter(new TaskAdapter(tasks));
-//    }
 
-    public static List<Task> getList(SharedPreferences sharedPreferences) {
-//        List<Task> tasks = new ArrayList<>();
-//        String string = sharedPreferences.getString("taskList",null);
-//        Gson gson = new Gson();
-//        Type type = new TypeToken<List<Task>>(){}.getType();
-//        tasks = gson.fromJson(string, type);
-//        return tasks;
-        return db.taskDao().gitAll();
-    }
+
 
 
     @Override
