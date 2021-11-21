@@ -3,6 +3,7 @@ package com.example.taskmaster;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.room.RoomDatabase;
 
 import android.annotation.SuppressLint;
@@ -30,19 +31,17 @@ import java.util.Objects;
 import java.util.Set;
 
 public class AddTask extends AppCompatActivity {
-    static TaskDataBase db;
-    public static final String EXTRA_REPLY = "com.example.android.taskmaster.REPLY";
+    private TaskViewModel taskViewModel;
+//    @SuppressLint("SetTextI18n")
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
-        db = TaskDataBase.getInstance(getApplicationContext());
         ActionBar actionBar = getSupportActionBar();
         Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
-        SharedPreferences sharedPreferences = this.getApplicationContext().getSharedPreferences("tasks", Context.MODE_PRIVATE);
-
-
+        TextView textView = findViewById(R.id.totalTask);
+        textView.setText("Total Task: "+getIntent().getIntExtra("count",0));
     }
 
 
@@ -59,34 +58,19 @@ public class AddTask extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     public void addTask(View view) {
-//        SharedPreferences sharedPreferences = this.getApplicationContext().getSharedPreferences("tasks", Context.MODE_PRIVATE);
         TextInputEditText title = findViewById(R.id.title);
         TextInputEditText desc = findViewById(R.id.desc);
-//        Task task = new Task(Objects.requireNonNull(title.getText()).toString(), Objects.requireNonNull(desc.getText()).toString(), "new");
-//        AsyncTask.execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                addList(task);
-//            }
-//        });
-//
-//        TextView textView = findViewById(R.id.totalTask);
-//        String[] arrayOfText = textView.getText().toString().split(":");
-//        String firstHalf = arrayOfText[0];
-//        String textNumber = arrayOfText[1].split(" ")[1];
-//        int number = Integer.parseInt(textNumber) + 1;
-//        textView.setText(firstHalf + ": " + number);
+        TextView textView = findViewById(R.id.totalTask);
+        String[] arrayOfText = textView.getText().toString().split(":");
+        String firstHalf = arrayOfText[0];
+        String textNumber = arrayOfText[1].split(" ")[1];
+        int number = Integer.parseInt(textNumber) + 1;
+        textView.setText(firstHalf + ": " + number);
         Intent intent = new Intent();
         intent.putExtra("title",Objects.requireNonNull(title.getText()).toString());
         intent.putExtra("desc",Objects.requireNonNull(desc.getText()).toString());
         setResult(RESULT_OK, intent);
         Toast.makeText(getApplicationContext(), "submitted!!", Toast.LENGTH_LONG).show();
         finish();
-    }
-
-
-    public static void addList (
-            Task task) {
-        db.taskDao().insertTask(task);
     }
 }

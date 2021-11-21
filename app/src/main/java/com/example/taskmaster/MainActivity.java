@@ -38,6 +38,7 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
+    private TaskViewModel taskViewModel;
     ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -51,20 +52,23 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
     );
-    LiveData<List<Task>> tasks;
-    public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
-    private TaskViewModel taskViewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
-        tasks = taskViewModel.getAllTasks();
-        List<Task> taskList = tasks.getValue();
         RecyclerView recyclerView = findViewById(R.id.mainTaskView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new TaskAdapter(taskList));
+        Observer<List<Task>> observer = new Observer<List<Task>>() {
+            @Override
+            public void onChanged(List<Task> tasks) {
+                recyclerView.setAdapter(new TaskAdapter(tasks));
+            }
+        };
+        taskViewModel.getAllTasks().observe(this, observer);
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -86,34 +90,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public static List<Task> seedTask(SharedPreferences sharedPreferences) {
-        String string = sharedPreferences.getString("taskList", null);
-        List<Task> tasks = new ArrayList<>();
-        if (string == null) {
-            tasks.add(new Task("Title1", "Desc1", "new "));
-            tasks.add(new Task("Title2", "Desc2", "new "));
-            tasks.add(new Task("Title3", "Desc3", "new "));
-            tasks.add(new Task("Title4", "Desc4", "new "));
-            tasks.add(new Task("Title5", "Desc5", "new "));
-            tasks.add(new Task("Title6", "Desc6", "new "));
-            @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = sharedPreferences.edit();
-            Gson gson = new Gson();
-            String json = gson.toJson(tasks);
-            System.out.println(json);
-            editor.putString("taskList", json);
-            editor.apply();
-        } else {
-            Gson gson = new Gson();
-            Type type = new TypeToken<List<Task>>() {
-            }.getType();
-            tasks = gson.fromJson(string, type);
-        }
-        return tasks;
-    }
-
     public void showAddTask(View v) {
-
         Intent intent = new Intent(this, AddTask.class);
+        intent.putExtra("count",taskViewModel.getAllTasks().getValue().size());
         activityResultLauncher.launch(intent);
 
     }

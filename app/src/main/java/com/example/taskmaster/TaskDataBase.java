@@ -25,7 +25,7 @@ public abstract class TaskDataBase extends RoomDatabase {
         if (INSTANCE == null) {
             synchronized (TaskDataBase.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), TaskDataBase.class, "task").fallbackToDestructiveMigration().build();
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), TaskDataBase.class, "tasks").build();
                 }
             }
         }

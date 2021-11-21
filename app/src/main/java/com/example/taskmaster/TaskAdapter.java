@@ -80,17 +80,17 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         return tasks.size();
     }
 
-    static class TaskDiff extends DiffUtil.ItemCallback<Task> {
-
-        @Override
-        public boolean areItemsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {
-            return oldItem == newItem;
-        }
-
-        @Override
-        public boolean areContentsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {
-            return oldItem.getUid() == newItem.getUid();
-        }
-    }
+//    static class TaskDiff extends DiffUtil.ItemCallback<Task> {
+//
+//        @Override
+//        public boolean areItemsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {
+//            return oldItem == newItem;
+//        }
+//
+//        @Override
+//        public boolean areContentsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {
+//            return oldItem.getUid() == newItem.getUid();
+//        }
+//    }
 
 }

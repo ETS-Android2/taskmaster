@@ -10,10 +10,10 @@ import java.util.List;
 
 @Dao
 public interface TaskDao {
-    @Query("SELECT * FROM task")
+    @Query("SELECT * FROM tasks")
     LiveData<List<Task>> gitAll();
 
-    @Query("SELECT * FROM task WHERE uid = (:uid) ")
+    @Query("SELECT * FROM tasks WHERE uid = (:uid) ")
     LiveData<Task> findById(int uid);
 
     @Insert

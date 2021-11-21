@@ -3,6 +3,8 @@ package com.example.taskmaster;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,21 +25,22 @@ import java.util.List;
 import java.util.Objects;
 
 public class AllTasks extends AppCompatActivity {
-    TaskDataBase db;
-    private TaskViewModel taskViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_task);
         ActionBar actionBar = getSupportActionBar();
         Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
+        TaskViewModel taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
         RecyclerView recyclerView = findViewById(R.id.allTaskView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        db = TaskDataBase.getInstance(this);
-
-        taskViewModel = new TaskViewModel(getApplication());
-
+        Observer<List<Task>> observer = new Observer<List<Task>>() {
+            @Override
+            public void onChanged(List<Task> tasks) {
+                recyclerView.setAdapter(new TaskAdapter(tasks));
+            }
+        };
+        taskViewModel.getAllTasks().observe(this, observer);
     }
 
 
