@@ -33,6 +33,10 @@ This is an android application that will display your added task, and you can ad
     2. Added RecyclerView to the main page and All Task page where in the main page will display the newest three added task.
     3. When the user run the app for the first time the shared preference will seed with 6 tasks.
 
+- 21/11/2021 09:53:
+    1. Added room database to the app and added the task class to the database.
+    2. Added the functionality to add task to the database.
+
 ## Screen Shots
     
 - 14/11/2021
