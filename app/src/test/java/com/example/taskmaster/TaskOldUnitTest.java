@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 
 // Unit Test For Task Class
-public class TaskUnitTest {
+public class TaskOldUnitTest {
 
 
     // general tester - there is not method inside the class

@@ -12,11 +12,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -32,7 +36,7 @@ import java.util.Set;
 
 public class AddTask extends AppCompatActivity {
     private TaskViewModel taskViewModel;
-//    @SuppressLint("SetTextI18n")
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +45,7 @@ public class AddTask extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
         TextView textView = findViewById(R.id.totalTask);
-        textView.setText("Total Task: "+getIntent().getIntExtra("count",0));
+        textView.setText("Total Task: " + getIntent().getIntExtra("count", 0));
     }
 
 
@@ -67,8 +71,13 @@ public class AddTask extends AppCompatActivity {
         int number = Integer.parseInt(textNumber) + 1;
         textView.setText(firstHalf + ": " + number);
         Intent intent = new Intent();
-        intent.putExtra("title",Objects.requireNonNull(title.getText()).toString());
-        intent.putExtra("desc",Objects.requireNonNull(desc.getText()).toString());
+//        intent.putExtra("title",Objects.requireNonNull(title.getText()).toString());
+//        intent.putExtra("desc",Objects.requireNonNull(desc.getText()).toString());
+        Task task = Task.builder().title(Objects.requireNonNull(title.getText()).toString()).desc(Objects.requireNonNull(desc.getText()).toString()).state("new").build();
+        Amplify.API.mutate(
+                ModelMutation.create(task),
+                    response -> Log.i("MyAmplifyApp", "Added Todo with id: " + response.getData().getId()),
+                error -> Log.e("MyAmplifyApp", "Create failed", error));
         setResult(RESULT_OK, intent);
         Toast.makeText(getApplicationContext(), "submitted!!", Toast.LENGTH_LONG).show();
         finish();

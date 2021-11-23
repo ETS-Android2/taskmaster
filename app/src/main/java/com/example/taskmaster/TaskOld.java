@@ -5,7 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity (tableName = "tasks")
-public class Task {
+public class TaskOld {
 
     @PrimaryKey(autoGenerate = true)
     private int uid;
@@ -24,10 +24,10 @@ public class Task {
     private String desc;
     private String state;
 
-    public Task() {
+    public TaskOld() {
     }
 
-    public Task(String title, String desc, String state) {
+    public TaskOld(String title, String desc, String state) {
         this.title = title;
         this.desc = desc;
         this.state = state;
