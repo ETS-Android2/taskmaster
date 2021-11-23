@@ -5,8 +5,8 @@ This is an android application that will display your added task, and you can ad
 ## Change Log
 
 - 14/11/2021 19:30:
-    1. added the base functionality to move between activities and dummy button to add the task 
-        > Note: although the button "add task" increase the number but is dummy button and will not add anything to the memory or the database 
+    1. added the base functionality to move between activities and dummy button to add the task
+        > Note: although the button "add task" increase the number but is dummy button and will not add anything to the memory or the database
     2. Chosen the Color Pallet -maybe i will change it later
     
         1. ![#000000](https://via.placeholder.com/15/FFFFFF/000000?text=+) `#000000`
@@ -31,7 +31,7 @@ This is an android application that will display your added task, and you can ad
 - 16/11/2021 20:55:
     1. Added the functionality to add task page where the task will be added to the shared preference.
     2. Added RecyclerView to the main page and All Task page where in the main page will display the newest three added task.
-    3. When the user run the app for the first time the shared preference will seed with 6 tasks.
+    3. When the user run the app for the first time the shared preference will seed with 6 task.
 
 - 21/11/2021 09:53:
     1. Added room database to the app and added the task class to the database.
@@ -47,13 +47,13 @@ This is an android application that will display your added task, and you can ad
 
 
 - 15/11/2021
-![Home page with setting and tasks](./screenshots/hompageWithusernameAndtaskBar.jpg)
+![Home page with setting and task](./screenshots/hompageWithusernameAndtaskBar.jpg)
 ![Setting page](./screenshots/settingName.jpg)
 ![Task Detail](./screenshots/taskDetail.jpg)
 
 
 - 16/11/2021
-![Home page with setting and tasks](./screenshots/homepageRCView.jpg)
+![Home page with setting and task](./screenshots/homepageRCView.jpg)
 ![All Task](./screenshots/allTaskFun.jpg)
 ![Add Task](./screenshots/addTaskWithFun.jpg)
 ![Task Detail](./screenshots/taskDetailFun.jpg)

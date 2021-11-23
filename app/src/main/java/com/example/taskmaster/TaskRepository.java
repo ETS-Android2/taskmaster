@@ -8,7 +8,7 @@ import java.util.List;
 
 public class TaskRepository {
     private TaskDao taskDao;
-    private LiveData<List<Task>> allTasks;
+    private LiveData<List<TaskOld>> allTasks;
 
     TaskRepository (Application application) {
         TaskDataBase db = TaskDataBase.getInstance(application);
@@ -18,11 +18,11 @@ public class TaskRepository {
     }
 
 
-    LiveData<List<Task>> getAllTasks() {
+    LiveData<List<TaskOld>> getAllTasks() {
         return allTasks;
     }
 
-    void insert(Task task) {
+    void insert(TaskOld task) {
         TaskDataBase.databaseWriteExecutor.execute(() -> {
             taskDao.insertTask(task);
         });

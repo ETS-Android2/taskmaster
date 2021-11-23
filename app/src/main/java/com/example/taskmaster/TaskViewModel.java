@@ -10,7 +10,7 @@ import java.util.List;
 public class TaskViewModel extends AndroidViewModel {
 
     private TaskRepository taskRepository;
-    private final LiveData<List<Task>> allTasks;
+    private final LiveData<List<TaskOld>> allTasks;
 
     public TaskViewModel (Application application) {
         super(application);
@@ -19,11 +19,11 @@ public class TaskViewModel extends AndroidViewModel {
 
     }
 
-    public LiveData<List<Task>> getAllTasks() {
+    public LiveData<List<TaskOld>> getAllTasks() {
         return allTasks;
     }
 
-    public void insert(Task task) {
+    public void insert(TaskOld task) {
         taskRepository.insert(task);
     }
 }

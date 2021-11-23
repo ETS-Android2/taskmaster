@@ -46,5 +46,6 @@ public class Setting extends AppCompatActivity {
         editor.putString("name", name);
         editor.apply();
         Toast.makeText(this, "User name changed to  " + name, Toast.LENGTH_LONG).show();
+        finish();
     }
 }

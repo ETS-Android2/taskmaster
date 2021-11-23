@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 
+import com.amplifyframework.datastore.generated.model.Task;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -25,22 +26,20 @@ import java.util.List;
 import java.util.Objects;
 
 public class AllTasks extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_task);
         ActionBar actionBar = getSupportActionBar();
         Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
+        List<Task> tasks = new ArrayList<>();
         TaskViewModel taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
         RecyclerView recyclerView = findViewById(R.id.allTaskView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        Observer<List<Task>> observer = new Observer<List<Task>>() {
-            @Override
-            public void onChanged(List<Task> tasks) {
-                recyclerView.setAdapter(new TaskAdapter(tasks));
-            }
-        };
-        taskViewModel.getAllTasks().observe(this, observer);
+        recyclerView.setAdapter(new TaskAdapter(tasks));
+//        Observer<List<TaskOld>> observer = tasks -> recyclerView.setAdapter(new TaskAdapter(tasks));
+//        taskViewModel.getAllTasks().observe(this, observer);
     }
 
 

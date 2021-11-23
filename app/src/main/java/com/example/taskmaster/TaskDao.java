@@ -11,14 +11,14 @@ import java.util.List;
 @Dao
 public interface TaskDao {
     @Query("SELECT * FROM tasks")
-    LiveData<List<Task>> gitAll();
+    LiveData<List<TaskOld>> gitAll();
 
     @Query("SELECT * FROM tasks WHERE uid = (:uid) ")
-    LiveData<Task> findById(int uid);
+    LiveData<TaskOld> findById(int uid);
 
     @Insert
-    void insertTask(Task task);
+    void insertTask(TaskOld task);
 
     @Delete
-    void Delete(Task task);
+    void Delete(TaskOld task);
 }

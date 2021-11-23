@@ -7,11 +7,10 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = Task.class, version = 2)
+@Database(entities = TaskOld.class, version = 2)
 public abstract class TaskDataBase extends RoomDatabase {
 
     public abstract TaskDao taskDao();
