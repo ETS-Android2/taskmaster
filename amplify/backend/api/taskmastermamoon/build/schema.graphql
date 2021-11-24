@@ -1,5 +1,17 @@
+type Team {
+  id: ID!
+  name: String!
+  tasks(titleDescState: ModelTaskByTeamCompositeKeyConditionInput, filter: ModelTaskFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTaskConnection
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
 type Task {
   id: ID!
+  teamName: String!
   title: String
   desc: String
   state: String
@@ -15,8 +27,8 @@ enum ModelSortDirection {
   DESC
 }
 
-type ModelTaskConnection {
-  items: [Task!]!
+type ModelTeamConnection {
+  items: [Team!]!
   nextToken: String
   startedAt: AWSTimestamp
 }
@@ -94,14 +106,12 @@ input ModelSizeInput {
   between: [Int]
 }
 
-input ModelTaskFilterInput {
+input ModelTeamFilterInput {
   id: ModelIDInput
-  title: ModelStringInput
-  desc: ModelStringInput
-  state: ModelStringInput
-  and: [ModelTaskFilterInput]
-  or: [ModelTaskFilterInput]
-  not: ModelTaskFilterInput
+  name: ModelStringInput
+  and: [ModelTeamFilterInput]
+  or: [ModelTeamFilterInput]
+  not: ModelTeamFilterInput
 }
 
 enum ModelAttributeTypes {
@@ -118,13 +128,76 @@ enum ModelAttributeTypes {
 }
 
 type Query {
+  syncTeams(filter: ModelTeamFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelTeamConnection
+  getTeam(id: ID!): Team
+  listTeams(filter: ModelTeamFilterInput, limit: Int, nextToken: String): ModelTeamConnection
   syncTasks(filter: ModelTaskFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelTaskConnection
   getTask(id: ID!): Task
   listTasks(filter: ModelTaskFilterInput, limit: Int, nextToken: String): ModelTaskConnection
 }
 
+input CreateTeamInput {
+  id: ID
+  name: String!
+  _version: Int
+}
+
+input UpdateTeamInput {
+  id: ID!
+  name: String
+  _version: Int
+}
+
+input DeleteTeamInput {
+  id: ID!
+  _version: Int
+}
+
+type Mutation {
+  createTeam(input: CreateTeamInput!, condition: ModelTeamConditionInput): Team
+  updateTeam(input: UpdateTeamInput!, condition: ModelTeamConditionInput): Team
+  deleteTeam(input: DeleteTeamInput!, condition: ModelTeamConditionInput): Team
+  createTask(input: CreateTaskInput!, condition: ModelTaskConditionInput): Task
+  updateTask(input: UpdateTaskInput!, condition: ModelTaskConditionInput): Task
+  deleteTask(input: DeleteTaskInput!, condition: ModelTaskConditionInput): Task
+}
+
+input ModelTeamConditionInput {
+  name: ModelStringInput
+  and: [ModelTeamConditionInput]
+  or: [ModelTeamConditionInput]
+  not: ModelTeamConditionInput
+}
+
+type Subscription {
+  onCreateTeam: Team @aws_subscribe(mutations: ["createTeam"])
+  onUpdateTeam: Team @aws_subscribe(mutations: ["updateTeam"])
+  onDeleteTeam: Team @aws_subscribe(mutations: ["deleteTeam"])
+  onCreateTask: Task @aws_subscribe(mutations: ["createTask"])
+  onUpdateTask: Task @aws_subscribe(mutations: ["updateTask"])
+  onDeleteTask: Task @aws_subscribe(mutations: ["deleteTask"])
+}
+
+type ModelTaskConnection {
+  items: [Task!]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelTaskFilterInput {
+  id: ModelIDInput
+  teamName: ModelStringInput
+  title: ModelStringInput
+  desc: ModelStringInput
+  state: ModelStringInput
+  and: [ModelTaskFilterInput]
+  or: [ModelTaskFilterInput]
+  not: ModelTaskFilterInput
+}
+
 input CreateTaskInput {
   id: ID
+  teamName: String!
   title: String
   desc: String
   state: String
@@ -133,6 +206,7 @@ input CreateTaskInput {
 
 input UpdateTaskInput {
   id: ID!
+  teamName: String
   title: String
   desc: String
   state: String
@@ -144,13 +218,8 @@ input DeleteTaskInput {
   _version: Int
 }
 
-type Mutation {
-  createTask(input: CreateTaskInput!, condition: ModelTaskConditionInput): Task
-  updateTask(input: UpdateTaskInput!, condition: ModelTaskConditionInput): Task
-  deleteTask(input: DeleteTaskInput!, condition: ModelTaskConditionInput): Task
-}
-
 input ModelTaskConditionInput {
+  teamName: ModelStringInput
   title: ModelStringInput
   desc: ModelStringInput
   state: ModelStringInput
@@ -159,8 +228,18 @@ input ModelTaskConditionInput {
   not: ModelTaskConditionInput
 }
 
-type Subscription {
-  onCreateTask: Task @aws_subscribe(mutations: ["createTask"])
-  onUpdateTask: Task @aws_subscribe(mutations: ["updateTask"])
-  onDeleteTask: Task @aws_subscribe(mutations: ["deleteTask"])
+input ModelTaskByTeamCompositeKeyConditionInput {
+  eq: ModelTaskByTeamCompositeKeyInput
+  le: ModelTaskByTeamCompositeKeyInput
+  lt: ModelTaskByTeamCompositeKeyInput
+  ge: ModelTaskByTeamCompositeKeyInput
+  gt: ModelTaskByTeamCompositeKeyInput
+  between: [ModelTaskByTeamCompositeKeyInput]
+  beginsWith: ModelTaskByTeamCompositeKeyInput
+}
+
+input ModelTaskByTeamCompositeKeyInput {
+  title: String
+  desc: String
+  state: String
 }

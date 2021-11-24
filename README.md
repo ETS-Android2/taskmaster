@@ -22,28 +22,34 @@ This is an android application that will display your added task, and you can ad
   4. Add Unit Test For the Task Class
      > Note: The class just have setter and getter and the test is just general test for them and for the constructor method will be added in the future.
 
-- 15/11/2021 19:50:
+- 15/11/2021 19:50
 
   1. Added the shared preference to set the username (default anonymous)
      > The User can Set the username in the settings
   2. Added three task to the main page when clicked on one of them new activity will open contain the title along with description.
   3. Added setting button in the main page to open the settings activity.
 
-- 16/11/2021 20:55:
+- 16/11/2021 20:55
 
   1. Added the functionality to add task page where the task will be added to the shared preference.
   2. Added RecyclerView to the main page and All Task page where in the main page will display the newest three added task.
   3. When the user run the app for the first time the shared preference will seed with 6 task.
 
-- 21/11/2021 09:53:
+- 21/11/2021 09:53
 
   1. Added room database to the app and added the task class to the database.
   2. Added the functionality to add task to the database.
 
-- 24/11/2021 10:09:
+- 24/11/2021 10:09
   1. Added Amplify to the app and added the functionality to add task to the database.
   2. Added the functionality to add task to the database.
   3. Removed Room Database and added the functionality to add task to the database.
+
+- 24/11/2021 22:20
+  1. Add Connection to graphql.
+  2. Add Team Model into graphql.
+  3. Insert 3 HardCoded team into the app.
+  4. User can set their team and filter the result accord to it.
 
 ## Screen Shots
 
@@ -68,3 +74,9 @@ This is an android application that will display your added task, and you can ad
   ![Home Page](./screenshots/HomePageAWS.jpg)
   ![Add Task](./screenshots/AddTaskAWS.jpg)
   ![All Task](./screenshots/AllTaskAWS.jpg)
+
+- 24/11/2021 (night)
+  ![Home Page with team](./screenshots/homePageTeam.jpg)
+  ![Home Page with another team](./screenshots/homePageTeam2.jpg)
+  ![add Task with team](./screenshots/addTaskTeam.jpg)
+  ![all Task with Team](./screenshots/allTaskTeam.jpg)

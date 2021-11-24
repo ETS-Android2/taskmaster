@@ -30,17 +30,21 @@ import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.ApiOperation;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.api.graphql.model.ModelSubscription;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.core.async.Cancelable;
 import com.amplifyframework.datastore.generated.model.AmplifyModelProvider;
 import com.amplifyframework.datastore.generated.model.Task;
+import com.amplifyframework.datastore.generated.model.Team;
 
 
 import java.util.ArrayList;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -91,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
 
+
+
+
         // Old code for room
         // taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
         // Observer<List<Task>> observer = new Observer<List<Task>>() {
@@ -109,11 +116,13 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("tasks", Context.MODE_PRIVATE);
         String name = sharedPreferences.getString("name", "Anonymous");
-        System.out.println(name);
-        TextView textView = findViewById(R.id.mainUsername);
-        textView.setText(name + "'s Tasks");
+        String teamName = sharedPreferences.getString("team","Anonymous Team");
+        TextView nameView = findViewById(R.id.mainUsername);
+        TextView teamView = findViewById(R.id.mainTeam);
+        nameView.setText(name + "'s Tasks");
+        teamView.setText(teamName);
         Amplify.API.query(
-                ModelQuery.list(Task.class),
+                ModelQuery.list(Task.class, Task.TEAM_NAME.contains(teamName)),
                 response -> {
                     tasks.clear();
                     for (Task task : response.getData()) {
@@ -123,6 +132,20 @@ public class MainActivity extends AppCompatActivity {
                 },
                 error -> Log.e("MyAmplifyApp", "Query failure", error)
         );
+        Amplify.API.query(
+                ModelQuery.list(Team.class),
+                response -> {
+                    Set<String> names  = new HashSet<>();
+                    for (Team team : response.getData()) {
+                        names.add(team.getName());
+                    }
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putStringSet("teamNames",names);
+                    editor.apply();
+                },
+                error -> Log.e("MyAmplifyApp", "Query failure", error)
+        );
+
 
 
     }

@@ -129,6 +129,14 @@
                     {
                         "AttributeName": "id",
                         "AttributeType": "S"
+                    },
+                    {
+                        "AttributeName": "teamName",
+                        "AttributeType": "S"
+                    },
+                    {
+                        "AttributeName": "title#desc#state",
+                        "AttributeType": "S"
                     }
                 ],
                 "StreamSpecification": {
@@ -182,7 +190,41 @@
                 "TimeToLiveSpecification": {
                     "AttributeName": "_ttl",
                     "Enabled": true
-                }
+                },
+                "GlobalSecondaryIndexes": [
+                    {
+                        "IndexName": "byTeam",
+                        "KeySchema": [
+                            {
+                                "AttributeName": "teamName",
+                                "KeyType": "HASH"
+                            },
+                            {
+                                "AttributeName": "title#desc#state",
+                                "KeyType": "RANGE"
+                            }
+                        ],
+                        "Projection": {
+                            "ProjectionType": "ALL"
+                        },
+                        "ProvisionedThroughput": {
+                            "Fn::If": [
+                                "ShouldUsePayPerRequestBilling",
+                                {
+                                    "Ref": "AWS::NoValue"
+                                },
+                                {
+                                    "ReadCapacityUnits": {
+                                        "Ref": "DynamoDBModelTableReadIOPS"
+                                    },
+                                    "WriteCapacityUnits": {
+                                        "Ref": "DynamoDBModelTableWriteIOPS"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
             },
             "DeletionPolicy": "Delete"
         },

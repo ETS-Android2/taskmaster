@@ -34,8 +34,8 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-taskmastermamoon-dev-174626-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apitaskmastermamoon"
       },
-      "lastPushTimeStamp": "2021-11-23T16:01:19.730Z",
-      "lastPushDirHash": "eE0dYSaUL2BPwfKisRqNZ7OdRvw="
+      "lastPushTimeStamp": "2021-11-24T20:36:04.679Z",
+      "lastPushDirHash": "Hqr7R5gDlYBwVC8NnyM39BBBrvE="
     }
   }
 }
