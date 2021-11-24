@@ -45,7 +45,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-//    private TaskViewModel taskViewModel;
+    // old code for room
+    // private TaskViewModel taskViewModel;
 //    ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
 //            new ActivityResultContracts.StartActivityForResult(),
 //            new ActivityResultCallback<ActivityResult>() {
@@ -59,15 +60,23 @@ public class MainActivity extends AppCompatActivity {
 //                }
 //            }
 //    );
+    List<Task> tasks = new ArrayList<>();
+    TaskAdapter adapter = new TaskAdapter(tasks);
+    Handler handler = new Handler();
+
+    Runnable runnable = new Runnable() {
+        @SuppressLint("NotifyDataSetChanged")
+        @Override
+        public void run() {
+            adapter.notifyDataSetChanged();
+        }
+    };
 
 
-    @SuppressLint({"NotifyDataSetChanged", "SetTextI18n"})
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
         try {
             // Add these lines to add the AWSApiPlugin plugins
             Amplify.addPlugin(new AWSApiPlugin());
@@ -77,74 +86,43 @@ public class MainActivity extends AppCompatActivity {
         } catch (AmplifyException error) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
         }
-
-        List<Task> tasks = new ArrayList<>();
-        TaskAdapter adapter = new TaskAdapter(tasks);
         RecyclerView recyclerView = findViewById(R.id.mainTaskView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-//        Amplify.API.query(
-//                ModelQuery.list(Task.class),
-//                response -> {
-//                    List<Task> temp = new ArrayList<>();
-//                    for (Task task : response.getData()) {
-//                        temp.add(task);
-//                        Log.i("MyAmplifyApp", task.getTitle());
-//                    }
-//                    recyclerView.setAdapter(new TaskAdapter(temp));
-//                },
-//                error -> Log.e("MyAmplifyApp", "Query failure", error)
-//        );
 
-//        Amplify.DataStore.observe(Task.class,
-//                cancelable -> Log.i("MyAmplifyApp", "Observation began."),
-//                postChanged -> {
-//                    Task post = postChanged.item();
-//                    Log.i("MyAmplifyApp", "Post: " + post);
-//                },
-//                failure -> Log.e("MyAmplifyApp", "Observation failed.", failure),
-//                () -> Log.i("MyAmplifyApp", "Observation complete.")
-//        );
-
-        ApiOperation subscription = Amplify.API.subscribe(
-                ModelSubscription.onCreate(Task.class),
-                onEstablished -> Log.i("ApiQuickStart", "Subscription established"),
-                onCreated -> Log.i("ApiQuickStart", "Todo create subscription received: " + ((Task) onCreated.getData()).getDesc()),
-                onFailure -> Log.e("ApiQuickStart", "Subscription failed", onFailure),
-                () -> Log.i("ApiQuickStart", "Subscription completed")
-        );
-
-
-
-
-
-
-
-
-
-//        Observer<List<Task>> observer = new Observer<List<Task>>() {
-//            @Override
-//            public void onChanged(List<Task> tasks) {
-//                recyclerView.setAdapter(new TaskAdapter(tasks));
-//            }
-//        };
-//        taskViewModel.getAllTasks().observe(this, observer);
+        // Old code for room
+        // taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
+        // Observer<List<Task>> observer = new Observer<List<Task>>() {
+        //  @Override
+        //  public void onChanged(List<Task> tasks) {
+        //  recyclerView.setAdapter(new TaskAdapter(tasks));
+        //  }
+        // };
+        // taskViewModel.getAllTasks().observe(this, observer);
 
     }
 
-    @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
+    @SuppressLint({"SetTextI18n"})
     @Override
     protected void onResume() {
         super.onResume();
-
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("tasks", Context.MODE_PRIVATE);
         String name = sharedPreferences.getString("name", "Anonymous");
         System.out.println(name);
-        TextView textView =  findViewById(R.id.mainUsername);
+        TextView textView = findViewById(R.id.mainUsername);
         textView.setText(name + "'s Tasks");
-
-
+        Amplify.API.query(
+                ModelQuery.list(Task.class),
+                response -> {
+                    tasks.clear();
+                    for (Task task : response.getData()) {
+                        tasks.add(task);
+                    }
+                    handler.post(runnable);
+                },
+                error -> Log.e("MyAmplifyApp", "Query failure", error)
+        );
 
 
     }
@@ -159,7 +137,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void showAddTask(View v) {
         Intent intent = new Intent(this, AddTask.class);
-//        intent.putExtra("count",taskViewModel.getAllTasks().getValue().size());
+        intent.putExtra("count", tasks.size());
+        // for room to lunch activity with save
 //        activityResultLauncher.launch(intent);
         startActivity(intent);
 
