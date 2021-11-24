@@ -29,6 +29,9 @@ sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="state">state</string>
+    <string name="team">Team</string>
+    <string name="user_s_team">User\'s Team</string>
+    <string name="task_team_name">Task Team Name</string>
 
 
 </resources>

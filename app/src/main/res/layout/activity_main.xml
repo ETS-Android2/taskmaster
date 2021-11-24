@@ -7,17 +7,32 @@
         tools:context=".MainActivity">
 
     <TextView
-            android:id="@+id/textView2"
-            android:layout_width="213dp"
-            android:layout_height="59dp"
+            android:textColor="?colorOnSecondary"
+            android:text="@string/user_s_team"
+            android:gravity="center"
+            android:textSize="22sp"
+            android:layout_width="240dp"
+            android:layout_height="39dp"
+            android:id="@+id/mainTeam"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintTop_toBottomOf="@+id/mainUsername"
+            android:layout_marginTop="40dp" />
+
+    <TextView
+            android:id="@+id/mainUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/my_tasks"
             android:textAlignment="center"
             android:textColor="?colorOnSecondary"
             android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.136"
+            app:layout_constraintHorizontal_bias="0.111"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="16dp" />
 
     <Button
             android:onClick="showSetting"
@@ -56,28 +71,15 @@
             android:layout_marginEnd="36dp"
             app:layout_constraintVertical_bias="0.504" />
 
-    <TextView
-            android:textColor="?colorOnSecondary"
-            android:text="@string/user_s_task"
-            android:gravity="center"
-            android:textSize="22sp"
-            android:layout_width="240dp"
-            android:layout_height="39dp"
-            android:id="@+id/mainUsername"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
-            android:layout_marginTop="36dp" />
-
     <androidx.recyclerview.widget.RecyclerView
             tools:listitem="@layout/fragment_task"
             android:layout_width="350dp"
             android:layout_height="400sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mainUsername"
             android:id="@+id/mainTaskView"
-            android:layout_marginTop="44dp" />
+            app:layout_constraintHorizontal_bias="0.491"
+            app:layout_constraintTop_toBottomOf="@+id/mainTeam"
+            android:layout_marginTop="24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

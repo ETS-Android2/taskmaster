@@ -55,9 +55,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         TextView title = holder.itemView.findViewById(R.id.titleFragment);
         TextView desc = holder.itemView.findViewById(R.id.descFragment);
         TextView state = holder.itemView.findViewById(R.id.stateFragment);
+        TextView team = holder.itemView.findViewById(R.id.teamFragment);
         title.setText(holder.task.getTitle());
         desc.setText(holder.task.getDesc());
         state.setText(holder.task.getState());
+        team.setText(holder.task.getTeamName());
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

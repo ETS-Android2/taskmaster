@@ -1,4 +1,26 @@
-#set( $optionalNonNullableFields = [] )
+## [Start] Validate update mutation for @key 'byTeam'. **
+#set( $hasSeenSomeKeyArg = false )
+#set( $keyFieldNames = ["title", "desc", "state"] )
+#foreach( $keyFieldName in $keyFieldNames )
+#if( $ctx.args.input.containsKey("$keyFieldName") ) #set( $hasSeenSomeKeyArg = true ) #end
+#end
+#foreach( $keyFieldName in $keyFieldNames )
+  #if( $hasSeenSomeKeyArg && !$ctx.args.input.containsKey("$keyFieldName") )
+    $util.error("When updating any part of the composite sort key for @key 'byTeam', you must provide all fields for the key. Missing key: '$keyFieldName'.")
+  #end
+#end
+## [End] Validate update mutation for @key 'byTeam'. **
+#if( $util.isNull($dynamodbNameOverrideMap) )
+  #set( $dynamodbNameOverrideMap = {
+  "title#desc#state": "titleDescState"
+} )
+#else
+  $util.qr($dynamodbNameOverrideMap.put("title#desc#state", "titleDescState"))
+#end
+#if( $hasSeenSomeKeyArg )
+  $util.qr($ctx.args.input.put("title#desc#state","${ctx.args.input.title}#${ctx.args.input.desc}#${ctx.args.input.state}"))
+#end
+#set( $optionalNonNullableFields = ["teamName"] )
 #foreach( $field in $optionalNonNullableFields )
   #if( $context.arguments.input.keySet().contains($field) && $util.isNull($context.args.input.get($field)) )
 $util.error("An argument you marked as Non-Null is set to Null in the query or the body of your request.")

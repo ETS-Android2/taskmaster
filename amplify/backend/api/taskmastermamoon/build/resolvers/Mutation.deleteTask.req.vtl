@@ -1,3 +1,11 @@
+#if( $util.isNull($dynamodbNameOverrideMap) )
+  #set( $dynamodbNameOverrideMap = {
+  "title#desc#state": "titleDescState"
+} )
+#else
+  $util.qr($dynamodbNameOverrideMap.put("title#desc#state", "titleDescState"))
+#end
+$util.qr($ctx.args.input.put("title#desc#state","${ctx.args.input.title}#${ctx.args.input.desc}#${ctx.args.input.state}"))
 #if( $authCondition )
   #set( $condition = $authCondition )
   #if( $modelObjectKey )
