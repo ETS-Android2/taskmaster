@@ -56,7 +56,6 @@ public class AddTask extends AppCompatActivity {
         menuView.setInputType(InputType.TYPE_NULL);
         String defaultTeamName = sharedPreferences.getString("team","Select Your Team First from setting");
         menuView.setText(defaultTeamName, defaultTeamName.equals("Select Your Team First from setting"));
-
     }
 
 

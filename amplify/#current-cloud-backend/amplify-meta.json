@@ -34,8 +34,51 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-taskmastermamoon-dev-174626-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apitaskmastermamoon"
       },
-      "lastPushTimeStamp": "2021-11-24T18:31:14.279Z",
+      "lastPushTimeStamp": "2021-11-28T08:35:04.198Z",
       "lastPushDirHash": "Hqr7R5gDlYBwVC8NnyM39BBBrvE="
+    }
+  },
+  "auth": {
+    "taskmastermamoonf0742784": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "frontendAuthConfig": {
+        "socialProviders": [],
+        "usernameAttributes": [],
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-taskmastermamoon-dev-174626-deployment/amplify-cfn-templates/auth/taskmastermamoonf0742784-cloudformation-template.json",
+        "logicalId": "authtaskmastermamoonf0742784"
+      },
+      "lastPushTimeStamp": "2021-11-28T08:35:04.217Z",
+      "output": {
+        "UserPoolId": "us-east-1_zCZUeGG29",
+        "AppClientIDWeb": "4qo4rm5cc1tt5voji2rj2bts97",
+        "AppClientID": "2a0l7ua6ivuudu21gedke5kk44",
+        "IdentityPoolId": "us-east-1:ec975017-f6ec-4c1f-9d54-45fa9b66a93d",
+        "UserPoolArn": "arn:aws:cognito-idp:us-east-1:414211320575:userpool/us-east-1_zCZUeGG29",
+        "IdentityPoolName": "taskmastermamoonf0742784_identitypool_f0742784__dev",
+        "UserPoolName": "taskmastermamoonf0742784_userpool_f0742784",
+        "HostedUIDomain": "taskmastermamoon3d7212a3-3d7212a3-dev",
+        "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"myapp://callback/\"],\"LogoutURLs\":[\"myapp://signout/\"]}"
+      },
+      "lastPushDirHash": "4+01yEfJDYeO3Ck/hU84Dy2obxs="
     }
   }
 }

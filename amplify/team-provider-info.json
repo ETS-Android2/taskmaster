@@ -10,6 +10,11 @@
       "StackName": "amplify-taskmastermamoon-dev-174626",
       "StackId": "arn:aws:cloudformation:us-east-1:414211320575:stack/amplify-taskmastermamoon-dev-174626/88fa8700-4c74-11ec-a5f2-0a06e6b8ef69",
       "AmplifyAppId": "d9js445jhcclu"
+    },
+    "categories": {
+      "auth": {
+        "taskmastermamoonf0742784": {}
+      }
     }
   }
 }

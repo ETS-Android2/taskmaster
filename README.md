@@ -41,15 +41,21 @@ This is an android application that will display your added task, and you can ad
   2. Added the functionality to add task to the database.
 
 - 24/11/2021 10:09
+
   1. Added Amplify to the app and added the functionality to add task to the database.
   2. Added the functionality to add task to the database.
   3. Removed Room Database and added the functionality to add task to the database.
 
 - 24/11/2021 22:20
+
   1. Add Connection to graphql.
   2. Add Team Model into graphql.
   3. Insert 3 HardCoded team into the app.
   4. User can set their team and filter the result accord to it.
+
+- 28/11/2021: 21:15
+  1. Add Sign in with web UI.
+  2. Now the User name will be according to his signed in user name.
 
 ## Screen Shots
 
@@ -80,3 +86,8 @@ This is an android application that will display your added task, and you can ad
   ![Home Page with another team](./screenshots/homePageTeam2.jpg)
   ![add Task with team](./screenshots/addTaskTeam.jpg)
   ![all Task with Team](./screenshots/allTaskTeam.jpg)
+
+- 28/11/2021
+  ![Setting with log in](./screenshots/settingIn.jpg)
+  ![Setting with log out](./screenshots/settingOut.jpg)
+  ![Web Ui](./screenshots/webUI.jpg)
