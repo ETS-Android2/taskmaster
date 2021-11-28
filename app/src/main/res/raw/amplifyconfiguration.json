@@ -13,5 +13,74 @@
                 }
             }
         }
+    },
+    "auth": {
+        "plugins": {
+            "awsCognitoAuthPlugin": {
+                "UserAgent": "aws-amplify-cli/0.1.0",
+                "Version": "0.1.0",
+                "IdentityManager": {
+                    "Default": {}
+                },
+                "AppSync": {
+                    "Default": {
+                        "ApiUrl": "https://skcu6t3wkrfbzpp6uwblxbak4y.appsync-api.us-east-1.amazonaws.com/graphql",
+                        "Region": "us-east-1",
+                        "AuthMode": "API_KEY",
+                        "ApiKey": "da2-gk4npmmfnzbzpkw7p2xk66uojm",
+                        "ClientDatabasePrefix": "taskmastermamoon_API_KEY"
+                    }
+                },
+                "CredentialsProvider": {
+                    "CognitoIdentity": {
+                        "Default": {
+                            "PoolId": "us-east-1:ec975017-f6ec-4c1f-9d54-45fa9b66a93d",
+                            "Region": "us-east-1"
+                        }
+                    }
+                },
+                "CognitoUserPool": {
+                    "Default": {
+                        "PoolId": "us-east-1_zCZUeGG29",
+                        "AppClientId": "2a0l7ua6ivuudu21gedke5kk44",
+                        "Region": "us-east-1"
+                    }
+                },
+                "Auth": {
+                    "Default": {
+                        "OAuth": {
+                            "WebDomain": "taskmastermamoon3d7212a3-3d7212a3-dev.auth.us-east-1.amazoncognito.com",
+                            "AppClientId": "2a0l7ua6ivuudu21gedke5kk44",
+                            "SignInRedirectURI": "myapp://callback/",
+                            "SignOutRedirectURI": "myapp://signout/",
+                            "Scopes": [
+                                "phone",
+                                "email",
+                                "openid",
+                                "profile",
+                                "aws.cognito.signin.user.admin"
+                            ]
+                        },
+                        "authenticationFlowType": "USER_SRP_AUTH",
+                        "socialProviders": [],
+                        "usernameAttributes": [],
+                        "signupAttributes": [
+                            "EMAIL"
+                        ],
+                        "passwordProtectionSettings": {
+                            "passwordPolicyMinLength": 8,
+                            "passwordPolicyCharacters": []
+                        },
+                        "mfaConfiguration": "OFF",
+                        "mfaTypes": [
+                            "SMS"
+                        ],
+                        "verificationMechanisms": [
+                            "EMAIL"
+                        ]
+                    }
+                }
+            }
+        }
     }
 }
