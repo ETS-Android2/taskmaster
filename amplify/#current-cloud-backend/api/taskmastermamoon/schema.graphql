@@ -11,4 +11,5 @@ type Task @model @key (name: "byTeam", fields: ["teamName", "title", "desc", "st
   title: String
   desc: String
   state: String
+  file: String
 }

@@ -162,7 +162,7 @@
           "DynamoDBBillingMode": "PAY_PER_REQUEST",
           "DynamoDBEnableServerSideEncryption": false,
           "S3DeploymentBucket": "amplify-taskmastermamoon-dev-174626-deployment",
-          "S3DeploymentRootKey": "amplify-appsync-files/d7126d119c66284e22f36a7eea43c68b88791792",
+          "S3DeploymentRootKey": "amplify-appsync-files/80c9d7edc75f21ad721e1249920aaf42e9b76257",
           "env": "dev"
         }
       }
@@ -223,6 +223,39 @@
           "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"myapp://callback/\"],\"LogoutURLs\":[\"myapp://signout/\"]}",
           "authProviders": "",
           "hostedUIProviderCreds": "[]",
+          "env": "dev"
+        }
+      }
+    },
+    "storagem100": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-taskmastermamoon-dev-174626-deployment/amplify-cfn-templates/storage/cloudformation-template.json",
+        "Parameters": {
+          "bucketName": "mamoontaskmaster",
+          "selectedGuestPermissions": "",
+          "selectedAuthenticatedPermissions": "s3:PutObject,s3:GetObject,s3:ListBucket,s3:DeleteObject",
+          "unauthRoleName": {
+            "Ref": "UnauthRoleName"
+          },
+          "authRoleName": {
+            "Ref": "AuthRoleName"
+          },
+          "s3PrivatePolicy": "Private_policy_c7f589ca",
+          "s3ProtectedPolicy": "Protected_policy_c7f589ca",
+          "s3PublicPolicy": "Public_policy_c7f589ca",
+          "s3ReadPolicy": "read_policy_c7f589ca",
+          "s3UploadsPolicy": "Uploads_policy_c7f589ca",
+          "authPolicyName": "s3_amplify_c7f589ca",
+          "unauthPolicyName": "s3_amplify_c7f589ca",
+          "AuthenticatedAllowList": "ALLOW",
+          "GuestAllowList": "DISALLOW",
+          "s3PermissionsAuthenticatedPrivate": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+          "s3PermissionsAuthenticatedProtected": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+          "s3PermissionsAuthenticatedPublic": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+          "s3PermissionsAuthenticatedUploads": "s3:PutObject",
+          "s3PermissionsGuestPublic": "DISALLOW",
+          "s3PermissionsGuestUploads": "DISALLOW",
           "env": "dev"
         }
       }

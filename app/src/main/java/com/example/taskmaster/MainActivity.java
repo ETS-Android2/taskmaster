@@ -39,6 +39,7 @@ import com.amplifyframework.core.async.Cancelable;
 import com.amplifyframework.datastore.generated.model.AmplifyModelProvider;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.generated.model.Team;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 
 
 import java.util.ArrayList;
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
             // Add these lines to add the AWSApiPlugin plugins
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.addPlugin(new AWSS3StoragePlugin());
             Amplify.configure(getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");

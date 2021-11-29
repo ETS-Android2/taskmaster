@@ -56,6 +56,9 @@ This is an android application that will display your added task, and you can ad
 - 28/11/2021: 21:15
   1. Add Sign in with web UI.
   2. Now the User name will be according to his signed in user name.
+- 29/11/2021: 19:55
+  1. Added the upload Function to the App so the user can add File to S3
+  2. Show if image in the task Detail activity
 
 ## Screen Shots
 
