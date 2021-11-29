@@ -1,0 +1,14 @@
+{
+  "resourceName": "m100",
+  "policyUUID": "c7f589ca",
+  "bucketName": "mamoontaskmaster",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

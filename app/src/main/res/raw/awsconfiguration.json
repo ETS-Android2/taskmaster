@@ -61,5 +61,11 @@
                 "EMAIL"
             ]
         }
+    },
+    "S3TransferUtility": {
+        "Default": {
+            "Bucket": "mamoontaskmaster174626-dev",
+            "Region": "us-east-1"
+        }
     }
 }
