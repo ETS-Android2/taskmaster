@@ -52,6 +52,33 @@
                 <data android:scheme="myapp" />
             </intent-filter>
         </activity>
+
+        <service android:name=".PushListenerService"
+                android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <receiver
+                android:name="com.amazonaws.mobileconnectors.pinpoint.targeting.notification.PinpointNotificationReceiver" android:exported="false" >
+            <intent-filter>
+                <action android:name="com.amazonaws.intent.fcm.NOTIFICATION_OPEN" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+                android:name=".DeepLinkActivity"
+                android:label="A deeplink!" >
+            <intent-filter android:label="inAppReceiver">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs of type "pinpoint://deeplink" -->
+                <data android:scheme="pinpoint"
+                        android:host="deeplink" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
