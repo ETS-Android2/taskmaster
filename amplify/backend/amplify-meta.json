@@ -97,5 +97,29 @@
       },
       "lastPushDirHash": "I5gFAbpcTBZzgRbhDa2UhLKTnWU="
     }
+  },
+  "notifications": {
+    "taskmasterMamoonRKrVB": {
+      "service": "Pinpoint",
+      "output": {
+        "Arn": "arn:aws:mobiletargeting:us-east-1:414211320575:apps/038314f7cddc40a29c7a89624c51040e",
+        "Id": "038314f7cddc40a29c7a89624c51040e",
+        "Name": "taskmasterMamoonRKrVB-dev",
+        "tags": {},
+        "Region": "us-east-1",
+        "FCM": {
+          "ApplicationId": "038314f7cddc40a29c7a89624c51040e",
+          "CreationDate": "2021-11-30T18:17:24.595Z",
+          "Enabled": true,
+          "HasCredential": true,
+          "Id": "gcm",
+          "IsArchived": false,
+          "LastModifiedDate": "2021-11-30T18:17:24.595Z",
+          "Platform": "GCM",
+          "Version": 1
+        }
+      },
+      "lastPushTimeStamp": "2021-11-30T18:14:15.387Z"
+    }
   }
 }

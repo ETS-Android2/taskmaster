@@ -1,20 +1,28 @@
 {
-  "dev": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-taskmastermamoon-dev-174626-authRole",
-      "UnauthRoleArn": "arn:aws:iam::414211320575:role/amplify-taskmastermamoon-dev-174626-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::414211320575:role/amplify-taskmastermamoon-dev-174626-authRole",
-      "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-taskmastermamoon-dev-174626-deployment",
-      "UnauthRoleName": "amplify-taskmastermamoon-dev-174626-unauthRole",
-      "StackName": "amplify-taskmastermamoon-dev-174626",
-      "StackId": "arn:aws:cloudformation:us-east-1:414211320575:stack/amplify-taskmastermamoon-dev-174626/88fa8700-4c74-11ec-a5f2-0a06e6b8ef69",
-      "AmplifyAppId": "d9js445jhcclu"
-    },
-    "categories": {
-      "auth": {
-        "taskmastermamoonf0742784": {}
-      }
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-taskmastermamoon-dev-174626-authRole",
+            "UnauthRoleArn": "arn:aws:iam::414211320575:role/amplify-taskmastermamoon-dev-174626-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::414211320575:role/amplify-taskmastermamoon-dev-174626-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-taskmastermamoon-dev-174626-deployment",
+            "UnauthRoleName": "amplify-taskmastermamoon-dev-174626-unauthRole",
+            "StackName": "amplify-taskmastermamoon-dev-174626",
+            "StackId": "arn:aws:cloudformation:us-east-1:414211320575:stack/amplify-taskmastermamoon-dev-174626/88fa8700-4c74-11ec-a5f2-0a06e6b8ef69",
+            "AmplifyAppId": "d9js445jhcclu"
+        },
+        "categories": {
+            "auth": {
+                "taskmastermamoonf0742784": {},
+                "true": {}
+            },
+            "notifications": {
+                "Pinpoint": {
+                    "Name": "taskmasterMamoonRKrVB-dev",
+                    "Id": "038314f7cddc40a29c7a89624c51040e",
+                    "Region": "us-east-1"
+                }
+            }
+        }
     }
-  }
 }

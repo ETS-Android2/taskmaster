@@ -67,5 +67,16 @@
             "Bucket": "mamoontaskmaster174626-dev",
             "Region": "us-east-1"
         }
+    },
+    "PinpointAnalytics": {
+        "Default": {
+            "AppId": "038314f7cddc40a29c7a89624c51040e",
+            "Region": "us-east-1"
+        }
+    },
+    "PinpointTargeting": {
+        "Default": {
+            "Region": "us-east-1"
+        }
     }
 }

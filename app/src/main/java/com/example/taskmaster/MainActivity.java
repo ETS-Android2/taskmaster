@@ -1,6 +1,7 @@
 package com.example.taskmaster;
 
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,6 +27,12 @@ import android.view.View;
 import android.widget.TextView;
 
 
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobile.client.Callback;
+import com.amazonaws.mobile.client.UserStateDetails;
+import com.amazonaws.mobile.config.AWSConfiguration;
+import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
+import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.ApiOperation;
 import com.amplifyframework.api.aws.AWSApiPlugin;
@@ -40,6 +47,8 @@ import com.amplifyframework.datastore.generated.model.AmplifyModelProvider;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.generated.model.Team;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
 import java.util.ArrayList;
@@ -50,6 +59,50 @@ import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String TAG = MainActivity.class.getSimpleName();
+
+    private static PinpointManager pinpointManager;
+
+    public static PinpointManager getPinpointManager(final Context applicationContext) {
+        if (pinpointManager == null) {
+            final AWSConfiguration awsConfig = new AWSConfiguration(applicationContext);
+            AWSMobileClient.getInstance().initialize(applicationContext, awsConfig, new Callback<UserStateDetails>() {
+                @Override
+                public void onResult(UserStateDetails userStateDetails) {
+                    Log.i("INIT", String.valueOf(userStateDetails.getUserState()));
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    Log.e("INIT", "Initialization error.", e);
+                }
+            });
+
+            PinpointConfiguration pinpointConfig = new PinpointConfiguration(
+                    applicationContext,
+                    AWSMobileClient.getInstance(),
+                    awsConfig);
+
+            pinpointManager = new PinpointManager(pinpointConfig);
+
+            FirebaseMessaging.getInstance().getToken()
+                    .addOnCompleteListener(new OnCompleteListener<String>() {
+                        @Override
+                        public void onComplete(@NonNull com.google.android.gms.tasks.Task<String> task) {
+                            if (!task.isSuccessful()) {
+                                Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                                return;
+                            }
+                            final String token = task.getResult();
+                            Log.d(TAG, "Registering push notifications token: " + token);
+                            pinpointManager.getNotificationClient().registerDeviceToken(token);
+                        }
+                    });
+        }
+        return pinpointManager;
+    }
+
 
     // old code for room
     // private TaskViewModel taskViewModel;
@@ -101,10 +154,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
 
-
-
-
-
         // Old code for room
         // taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
         // Observer<List<Task>> observer = new Observer<List<Task>>() {
@@ -123,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("tasks", Context.MODE_PRIVATE);
         String name = sharedPreferences.getString("name", "Anonymous");
-        String teamName = sharedPreferences.getString("team","Anonymous Team");
+        String teamName = sharedPreferences.getString("team", "Anonymous Team");
         TextView nameView = findViewById(R.id.mainUsername);
         TextView teamView = findViewById(R.id.mainTeam);
         nameView.setText(name + "'s Tasks");
@@ -142,16 +191,18 @@ public class MainActivity extends AppCompatActivity {
         Amplify.API.query(
                 ModelQuery.list(Team.class),
                 response -> {
-                    Set<String> names  = new HashSet<>();
+                    Set<String> names = new HashSet<>();
                     for (Team team : response.getData()) {
                         names.add(team.getName());
                     }
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putStringSet("teamNames",names);
+                    editor.putStringSet("teamNames", names);
                     editor.apply();
                 },
                 error -> Log.e("MyAmplifyApp", "Query failure", error)
         );
+        getPinpointManager(getApplicationContext());
+
 
 
 
