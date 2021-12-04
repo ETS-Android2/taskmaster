@@ -162,7 +162,7 @@
           "DynamoDBBillingMode": "PAY_PER_REQUEST",
           "DynamoDBEnableServerSideEncryption": false,
           "S3DeploymentBucket": "amplify-taskmastermamoon-dev-174626-deployment",
-          "S3DeploymentRootKey": "amplify-appsync-files/80c9d7edc75f21ad721e1249920aaf42e9b76257",
+          "S3DeploymentRootKey": "amplify-appsync-files/766ce8026cfb917f0aec72567e807b8d0ca60caa",
           "env": "dev"
         }
       }
@@ -173,7 +173,7 @@
         "TemplateURL": "https://s3.amazonaws.com/amplify-taskmastermamoon-dev-174626-deployment/amplify-cfn-templates/auth/taskmastermamoonf0742784-cloudformation-template.json",
         "Parameters": {
           "identityPoolName": "taskmastermamoonf0742784_identitypool_f0742784",
-          "allowUnauthenticatedIdentities": false,
+          "allowUnauthenticatedIdentities": true,
           "resourceNameTruncated": "taskmaf0742784",
           "userPoolName": "taskmastermamoonf0742784_userpool_f0742784",
           "autoVerifiedAttributes": "email",

@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Message;
 import android.text.InputType;
 import android.util.Log;
 import android.util.Size;
@@ -26,11 +28,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.generated.model.Team;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
+import com.google.firebase.messaging.RemoteMessageCreator;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -147,6 +153,8 @@ public class AddTask extends AppCompatActivity {
         Amplify.API.mutate(
                 ModelMutation.create(task),
                 response -> {
+
+
                     Log.i("MyAmplifyApp", "Added Todo with id: " + response.getData().getId());
                 },
                 error -> Log.e("MyAmplifyApp", "Create failed", error));

@@ -2,6 +2,9 @@ type Team {
   id: ID!
   name: String!
   tasks(titleDescState: ModelTaskByTeamCompositeKeyConditionInput, filter: ModelTaskFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTaskConnection
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 }
@@ -13,6 +16,9 @@ type Task {
   desc: String
   state: String
   file: String
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 }
@@ -25,6 +31,7 @@ enum ModelSortDirection {
 type ModelTeamConnection {
   items: [Team!]!
   nextToken: String
+  startedAt: AWSTimestamp
 }
 
 input ModelStringInput {
@@ -122,8 +129,10 @@ enum ModelAttributeTypes {
 }
 
 type Query {
+  syncTeams(filter: ModelTeamFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelTeamConnection
   getTeam(id: ID!): Team
   listTeams(filter: ModelTeamFilterInput, limit: Int, nextToken: String): ModelTeamConnection
+  syncTasks(filter: ModelTaskFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelTaskConnection
   getTask(id: ID!): Task
   listTasks(filter: ModelTaskFilterInput, limit: Int, nextToken: String): ModelTaskConnection
 }
@@ -131,15 +140,18 @@ type Query {
 input CreateTeamInput {
   id: ID
   name: String!
+  _version: Int
 }
 
 input UpdateTeamInput {
   id: ID!
   name: String
+  _version: Int
 }
 
 input DeleteTeamInput {
   id: ID!
+  _version: Int
 }
 
 type Mutation {
@@ -170,6 +182,7 @@ type Subscription {
 type ModelTaskConnection {
   items: [Task!]!
   nextToken: String
+  startedAt: AWSTimestamp
 }
 
 input ModelTaskFilterInput {
@@ -191,6 +204,7 @@ input CreateTaskInput {
   desc: String
   state: String
   file: String
+  _version: Int
 }
 
 input UpdateTaskInput {
@@ -200,10 +214,12 @@ input UpdateTaskInput {
   desc: String
   state: String
   file: String
+  _version: Int
 }
 
 input DeleteTaskInput {
   id: ID!
+  _version: Int
 }
 
 input ModelTaskConditionInput {

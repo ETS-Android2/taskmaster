@@ -16,6 +16,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.pinpoint.targeting.TargetingClient;
 import com.amplifyframework.core.Amplify;
 
 import java.util.ArrayList;
