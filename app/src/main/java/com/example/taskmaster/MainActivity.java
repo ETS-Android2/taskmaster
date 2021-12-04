@@ -33,6 +33,10 @@ import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
+import com.amazonaws.mobileconnectors.pinpoint.targeting.TargetingClient;
+import com.amazonaws.mobileconnectors.pinpoint.targeting.endpointProfile.EndpointProfile;
+import com.amazonaws.mobileconnectors.pinpoint.targeting.endpointProfile.EndpointProfileUser;
+import com.amazonaws.services.pinpoint.model.DefaultPushNotificationMessage;
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.ApiOperation;
 import com.amplifyframework.api.aws.AWSApiPlugin;
@@ -136,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         try {
             // Add these lines to add the AWSApiPlugin plugins
             Amplify.addPlugin(new AWSApiPlugin());
@@ -152,7 +157,8 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.mainTaskView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-
+        getPinpointManager(getApplicationContext());
+        assignUser();
 
         // Old code for room
         // taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
@@ -201,11 +207,24 @@ public class MainActivity extends AppCompatActivity {
                 },
                 error -> Log.e("MyAmplifyApp", "Query failure", error)
         );
-        getPinpointManager(getApplicationContext());
 
 
 
 
+
+
+    }
+
+    public void assignUser () {
+        SharedPreferences sharedPreferences  = getApplicationContext().getSharedPreferences("tasks", MODE_PRIVATE);
+        String teamName = sharedPreferences.getString("team", "Anonymous Team");
+        TargetingClient targetingClient = pinpointManager.getTargetingClient();
+        EndpointProfile endpointProfile = targetingClient.currentEndpoint();
+        EndpointProfileUser endpointProfileUser = new EndpointProfileUser();
+        endpointProfileUser.setUserId(teamName);
+        endpointProfile.setUser(endpointProfileUser);
+        targetingClient.updateEndpointProfile(endpointProfile);
+        Log.i(TAG, "Assign user Team" + endpointProfileUser.getUserId() + "To" + endpointProfile.getEndpointId());
     }
 
 
