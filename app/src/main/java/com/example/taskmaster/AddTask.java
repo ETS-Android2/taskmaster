@@ -13,6 +13,7 @@ import androidx.core.app.NotificationCompat;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,10 +30,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.generated.model.Team;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.RemoteMessage;
@@ -93,6 +98,17 @@ public class AddTask extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+        try {
+            // Add these lines to add the AWSApiPlugin plugins
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.addPlugin(new AWSS3StoragePlugin());
+            Amplify.configure(getApplicationContext());
+
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
         ActionBar actionBar = getSupportActionBar();
         Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("tasks",MODE_PRIVATE);
@@ -106,6 +122,25 @@ public class AddTask extends AppCompatActivity {
         menuView.setInputType(InputType.TYPE_NULL);
         String defaultTeamName = sharedPreferences.getString("team","Select Your Team First from setting");
         menuView.setText(defaultTeamName, defaultTeamName.equals("Select Your Team First from setting"));
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        Uri data = (Uri)bundle.get(Intent.EXTRA_STREAM);
+
+        if (intent.getType() != null) {
+//            System.out.println(data);
+            try {
+                inputStream = getContentResolver().openInputStream(data);
+                File file = new File(data.toString());
+                fileName = "image -"+file.getName();
+                Log.i ("MyAmplifyApp", fileName);
+                Button attachFile = findViewById(R.id.uploadFileButton);
+                attachFile.setText("Choose Another File");
+                attachFile.setTextSize(10);
+                Toast.makeText(getApplicationContext(),"Added the file Successfully",Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
