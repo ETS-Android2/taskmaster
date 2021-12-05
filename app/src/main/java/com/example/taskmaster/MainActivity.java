@@ -1,21 +1,27 @@
 package com.example.taskmaster;
 
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
 
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -38,6 +44,7 @@ import com.amazonaws.mobileconnectors.pinpoint.targeting.endpointProfile.Endpoin
 import com.amazonaws.mobileconnectors.pinpoint.targeting.endpointProfile.EndpointProfileUser;
 import com.amazonaws.services.pinpoint.model.DefaultPushNotificationMessage;
 import com.amplifyframework.AmplifyException;
+import com.amplifyframework.analytics.UserProfile;
 import com.amplifyframework.api.ApiOperation;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 
@@ -51,7 +58,10 @@ import com.amplifyframework.datastore.generated.model.AmplifyModelProvider;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.generated.model.Team;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 
@@ -62,8 +72,27 @@ import java.util.List;
 import java.util.Set;
 
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class MainActivity extends AppCompatActivity {
 
+    private FusedLocationProviderClient fusedLocationClient;
+
+    ActivityResultLauncher<String[]> locationPermissionRequest =
+            registerForActivityResult(new ActivityResultContracts
+                            .RequestMultiplePermissions(), result -> {
+                        Boolean fineLocationGranted = result.getOrDefault(
+                                Manifest.permission.ACCESS_FINE_LOCATION, false);
+                        Boolean coarseLocationGranted = result.getOrDefault(
+                                Manifest.permission.ACCESS_COARSE_LOCATION, false);
+                        if (fineLocationGranted != null && fineLocationGranted) {
+                            // Precise location access granted.
+                        } else if (coarseLocationGranted != null && coarseLocationGranted) {
+                            // Only approximate location access granted.
+                        } else {
+                            // No location access granted.
+                        }
+                    }
+            );
     public static final String TAG = MainActivity.class.getSimpleName();
 
     private static PinpointManager pinpointManager;
@@ -159,6 +188,16 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         getPinpointManager(getApplicationContext());
         assignUser();
+        locationPermissionRequest.launch(new String[]{
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        });
+
+
+
+
+
+
 
         // Old code for room
         // taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);

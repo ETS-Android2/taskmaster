@@ -34,8 +34,8 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-taskmastermamoon-dev-174626-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apitaskmastermamoon"
       },
-      "lastPushTimeStamp": "2021-12-04T17:20:11.780Z",
-      "lastPushDirHash": "YM3JwB7QjaVmN6NBkQ+0L1Rj5VE="
+      "lastPushTimeStamp": "2021-12-05T12:59:23.507Z",
+      "lastPushDirHash": "yt5n4HCU8RWN16JmFMCk5EaDwK8="
     }
   },
   "auth": {
@@ -66,7 +66,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-taskmastermamoon-dev-174626-deployment/amplify-cfn-templates/auth/taskmastermamoonf0742784-cloudformation-template.json",
         "logicalId": "authtaskmastermamoonf0742784"
       },
-      "lastPushTimeStamp": "2021-12-04T17:20:11.780Z",
+      "lastPushTimeStamp": "2021-12-05T12:55:52.755Z",
       "output": {
         "UserPoolId": "us-east-1_zCZUeGG29",
         "AppClientIDWeb": "4qo4rm5cc1tt5voji2rj2bts97",
@@ -90,7 +90,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-taskmastermamoon-dev-174626-deployment/amplify-cfn-templates/storage/cloudformation-template.json",
         "logicalId": "storagem100"
       },
-      "lastPushTimeStamp": "2021-12-04T17:20:11.764Z",
+      "lastPushTimeStamp": "2021-12-05T12:55:52.756Z",
       "output": {
         "BucketName": "mamoontaskmaster174626-dev",
         "Region": "us-east-1"

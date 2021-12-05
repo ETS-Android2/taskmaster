@@ -70,6 +70,5 @@ $util.qr($ctx.args.input.put("title#desc#state","${ctx.args.input.title}#${ctx.a
   "key": #if( $modelObjectKey ) $util.toJson($modelObjectKey) #else {
   "id": $util.dynamodb.toDynamoDBJson($ctx.args.input.id)
 } #end,
-  "condition": $util.toJson($condition),
-  "_version": $util.defaultIfNull($ctx.args.input["_version"], "0")
+  "condition": $util.toJson($condition)
 }

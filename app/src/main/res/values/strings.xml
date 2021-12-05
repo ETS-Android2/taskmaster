@@ -35,6 +35,7 @@ sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam</string>
     <string name="log_in">Log In</string>
     <string name="log_out">Log Out</string>
     <string name="attach_file">Attach File</string>
+    <string name="no_location_provided">No Location Provided</string>
 
 
 </resources>
