@@ -53,7 +53,6 @@ public class TaskDetail extends AppCompatActivity {
                             System.out.println("=================" + result.getUrl());
                             Log.i("MyAmplifyApp", result.getUrl().toString());
                             img.setImageDrawable(drawable);
-//                        img.setImageBitmap(bitmap);
                         } else {
                             img.setVisibility(View.GONE);
                             TextView textUrl = findViewById(R.id.urlText);
@@ -75,17 +74,6 @@ public class TaskDetail extends AppCompatActivity {
                 },
                 error -> Log.e("MyAmplifyApp", "URL generation failure", error)
         );
-//        try {
-//
-//        } catch (Exception e) {
-//            System.out.println("=======================");
-//            e.printStackTrace();
-//        }
-
-//        if (file != null) {
-//
-//        }
-
     }
 
 

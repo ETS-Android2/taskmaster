@@ -31,7 +31,13 @@
                 android:exported="true" />
         <activity
                 android:name=".AddTask"
-                android:exported="true" />
+                android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+        </activity>
         <activity
                 android:name=".MainActivity"
                 android:exported="true">
@@ -54,7 +60,9 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".PushListenerService"
+
+        <service
+                android:name=".PushListenerService"
                 android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -62,7 +70,8 @@
         </service>
 
         <receiver
-                android:name="com.amazonaws.mobileconnectors.pinpoint.targeting.notification.PinpointNotificationReceiver" android:exported="false" >
+                android:name="com.amazonaws.mobileconnectors.pinpoint.targeting.notification.PinpointNotificationReceiver"
+                android:exported="false">
             <intent-filter>
                 <action android:name="com.amazonaws.intent.fcm.NOTIFICATION_OPEN" />
             </intent-filter>
@@ -75,10 +84,12 @@
                 tools:ignore="AppLinkUrlError">
             <intent-filter android:label="inAppReceiver">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Accepts URIs of type "pinpoint://deeplink" -->
-                <data android:scheme="pinpoint"
+                <data
+                        android:scheme="pinpoint"
                         android:host="deeplink" />
             </intent-filter>
         </activity>
