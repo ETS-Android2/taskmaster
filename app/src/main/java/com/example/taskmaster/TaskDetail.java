@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,12 +21,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amplifyframework.core.Amplify;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
 public class TaskDetail extends AppCompatActivity {
+    GoogleMap googleMap;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -35,11 +42,13 @@ public class TaskDetail extends AppCompatActivity {
         SharedPreferences sharedPreferences = getApplication().getSharedPreferences("tasks", Context.MODE_PRIVATE);
         TextView textViewTitle = findViewById(R.id.titleDetail);
         TextView textViewDesc = findViewById(R.id.descDetail);
+        TextView locationView = findViewById(R.id.location);
         textViewTitle.setText(sharedPreferences.getString("title", "No title"));
         textViewDesc.setText(sharedPreferences.getString("desc", "No Desc"));
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         String file = sharedPreferences.getString("file", null);
+        String location = sharedPreferences.getString("location", null);
         ImageView img = findViewById(R.id.imgTask);
         Amplify.Storage.getUrl(
                 file,
@@ -74,6 +83,16 @@ public class TaskDetail extends AppCompatActivity {
                 },
                 error -> Log.e("MyAmplifyApp", "URL generation failure", error)
         );
+        if (location != null) {
+//            double lon = Double.parseDouble(location.split(",")[0]);
+//            double lat = Double.parseDouble(location.split(",")[1]);
+            locationView.setText(location);
+//            LatLng longLat = new LatLng(lon, lat);
+//            Marker marker = googleMap.addMarker(new MarkerOptions().position(longLat).title("Home").snippet("Task"));
+        }
+
+
+
     }
 
 

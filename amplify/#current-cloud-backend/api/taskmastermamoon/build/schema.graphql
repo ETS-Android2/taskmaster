@@ -16,6 +16,7 @@ type Task {
   desc: String
   state: String
   file: String
+  location: String
   _version: Int!
   _deleted: Boolean
   _lastChangedAt: AWSTimestamp!
@@ -192,6 +193,7 @@ input ModelTaskFilterInput {
   desc: ModelStringInput
   state: ModelStringInput
   file: ModelStringInput
+  location: ModelStringInput
   and: [ModelTaskFilterInput]
   or: [ModelTaskFilterInput]
   not: ModelTaskFilterInput
@@ -204,6 +206,7 @@ input CreateTaskInput {
   desc: String
   state: String
   file: String
+  location: String
   _version: Int
 }
 
@@ -214,6 +217,7 @@ input UpdateTaskInput {
   desc: String
   state: String
   file: String
+  location: String
   _version: Int
 }
 
@@ -228,6 +232,7 @@ input ModelTaskConditionInput {
   desc: ModelStringInput
   state: ModelStringInput
   file: ModelStringInput
+  location: ModelStringInput
   and: [ModelTaskConditionInput]
   or: [ModelTaskConditionInput]
   not: ModelTaskConditionInput

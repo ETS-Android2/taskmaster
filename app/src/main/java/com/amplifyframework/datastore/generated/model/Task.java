@@ -27,12 +27,14 @@ public final class Task implements Model {
   public static final QueryField DESC = field("Task", "desc");
   public static final QueryField STATE = field("Task", "state");
   public static final QueryField FILE = field("Task", "file");
+  public static final QueryField LOCATION = field("Task", "location");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String teamName;
   private final @ModelField(targetType="String") String title;
   private final @ModelField(targetType="String") String desc;
   private final @ModelField(targetType="String") String state;
   private final @ModelField(targetType="String") String file;
+  private final @ModelField(targetType="String") String location;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
@@ -59,6 +61,10 @@ public final class Task implements Model {
       return file;
   }
   
+  public String getLocation() {
+      return location;
+  }
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
@@ -67,13 +73,14 @@ public final class Task implements Model {
       return updatedAt;
   }
   
-  private Task(String id, String teamName, String title, String desc, String state, String file) {
+  private Task(String id, String teamName, String title, String desc, String state, String file, String location) {
     this.id = id;
     this.teamName = teamName;
     this.title = title;
     this.desc = desc;
     this.state = state;
     this.file = file;
+    this.location = location;
   }
   
   @Override
@@ -90,6 +97,7 @@ public final class Task implements Model {
               ObjectsCompat.equals(getDesc(), task.getDesc()) &&
               ObjectsCompat.equals(getState(), task.getState()) &&
               ObjectsCompat.equals(getFile(), task.getFile()) &&
+              ObjectsCompat.equals(getLocation(), task.getLocation()) &&
               ObjectsCompat.equals(getCreatedAt(), task.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), task.getUpdatedAt());
       }
@@ -104,6 +112,7 @@ public final class Task implements Model {
       .append(getDesc())
       .append(getState())
       .append(getFile())
+      .append(getLocation())
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .toString()
@@ -120,6 +129,7 @@ public final class Task implements Model {
       .append("desc=" + String.valueOf(getDesc()) + ", ")
       .append("state=" + String.valueOf(getState()) + ", ")
       .append("file=" + String.valueOf(getFile()) + ", ")
+      .append("location=" + String.valueOf(getLocation()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
       .append("}")
@@ -137,20 +147,11 @@ public final class Task implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static Task justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              "Model IDs must be unique in the format of UUID. This method is for creating instances " +
-              "of an existing object with only its ID field for sending as a mutation parameter. When " +
-              "creating a new object, use the standard builder method and leave the ID field blank."
-      );
-    }
     return new Task(
       id,
+      null,
       null,
       null,
       null,
@@ -165,7 +166,8 @@ public final class Task implements Model {
       title,
       desc,
       state,
-      file);
+      file,
+      location);
   }
   public interface TeamNameStep {
     BuildStep teamName(String teamName);
@@ -174,11 +176,12 @@ public final class Task implements Model {
 
   public interface BuildStep {
     Task build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep title(String title);
     BuildStep desc(String desc);
     BuildStep state(String state);
     BuildStep file(String file);
+    BuildStep location(String location);
   }
   
 
@@ -189,6 +192,7 @@ public final class Task implements Model {
     private String desc;
     private String state;
     private String file;
+    private String location;
     @Override
      public Task build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -199,7 +203,8 @@ public final class Task implements Model {
           title,
           desc,
           state,
-          file);
+          file,
+          location);
     }
     
     @Override
@@ -233,36 +238,32 @@ public final class Task implements Model {
         return this;
     }
     
+    @Override
+     public BuildStep location(String location) {
+        this.location = location;
+        return this;
+    }
+    
     /** 
-     * WARNING: Do not set ID when creating a new object. Leave this blank and one will be auto generated for you.
-     * This should only be set when referring to an already existing object.
      * @param id id
      * @return Current Builder instance, for fluent method chaining
-     * @throws IllegalArgumentException Checks that ID is in the proper format
      */
-    public BuildStep id(String id) throws IllegalArgumentException {
+    public BuildStep id(String id) {
         this.id = id;
-        
-        try {
-            UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-        } catch (Exception exception) {
-          throw new IllegalArgumentException("Model IDs must be unique in the format of UUID.",
-                    exception);
-        }
-        
         return this;
     }
   }
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String teamName, String title, String desc, String state, String file) {
+    private CopyOfBuilder(String id, String teamName, String title, String desc, String state, String file, String location) {
       super.id(id);
       super.teamName(teamName)
         .title(title)
         .desc(desc)
         .state(state)
-        .file(file);
+        .file(file)
+        .location(location);
     }
     
     @Override
@@ -288,6 +289,11 @@ public final class Task implements Model {
     @Override
      public CopyOfBuilder file(String file) {
       return (CopyOfBuilder) super.file(file);
+    }
+    
+    @Override
+     public CopyOfBuilder location(String location) {
+      return (CopyOfBuilder) super.location(location);
     }
   }
   

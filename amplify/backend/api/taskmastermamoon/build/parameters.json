@@ -1,8 +1,7 @@
 {
-    "CreateAPIKey": 1,
     "AppSyncApiName": "taskmastermamoon",
     "DynamoDBBillingMode": "PAY_PER_REQUEST",
     "DynamoDBEnableServerSideEncryption": false,
     "S3DeploymentBucket": "amplify-taskmastermamoon-dev-174626-deployment",
-    "S3DeploymentRootKey": "amplify-appsync-files/766ce8026cfb917f0aec72567e807b8d0ca60caa"
+    "S3DeploymentRootKey": "amplify-appsync-files/7a8d222c45d1ff11071308a3798451c27cd4e3f2"
 }
